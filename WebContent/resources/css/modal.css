@@ -1,0 +1,48 @@
+.spinner{
+	height: 18px;
+	width: auto;
+	margin-bottom: 1px;
+	display: none;
+}
+
+.modal{
+	font-family: 'Amaranth', sans-serif !important;
+	color: #B81D18 !important;
+}
+
+.modal-header, .modal-body, .modal-footer{
+	background-color: #202020;
+}
+
+.modal-header .close{
+	color: #B81D18;
+}
+
+.modal-body .form-group .input-group-addon{
+	background-color: #eee !important;
+	color: #B81D18 !important;
+}
+
+.modal-body .form-group input{
+	background-color: #fff !important;
+}
+
+.btn-danger{
+	background-color:  #B81D18 !important;
+	border-color: #B81D18 !important;
+}
+
+.btn-danger:HOVER{
+	background-color:  #71120f !important;
+	border-color: #71120f !important;
+}
+
+#comp-exists-msg{
+	display: none;
+}
+
+.red-glow:focus {   
+  border-color: rgba(184, 29, 24, 0.8);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(184, 29, 24, 0.8);
+  outline: 0 none;
+}

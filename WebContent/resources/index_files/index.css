@@ -1,0 +1,47 @@
+body{
+	background-color: #202020;
+}
+
+.marketing .row{
+	margin-top: 2em;
+}
+
+*:not(.glyphicon){
+	color: #B81D18 !important;
+	font-family: 'Amaranth', sans-serif !important;
+}
+
+.btn{
+	color: white !important;
+	background-color: #B81D18;
+	border-color: #B81D18;
+}
+
+.btn:HOVER {
+	background-color: #71120f;
+	border-color: #71120f;
+}
+
+#sign-in{
+	text-align: center;
+	right: 0;
+	left: 0;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+#auth{
+	position: absolute;
+	top: 1em;
+	right: 1em;
+}
+
+.navbar-opt:HOVER{
+	background-color: #080808;
+}
+
+.red-glow:focus {   
+  border-color: rgba(184, 29, 24, 0.8);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(184, 29, 24, 0.8);
+  outline: 0 none;
+}

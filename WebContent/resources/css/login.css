@@ -1,0 +1,131 @@
+@CHARSET "ISO-8859-1";
+#login-error-msg{
+	color: red;
+}
+
+#top-color {
+	position: fixed;
+	top: 0px;
+	background-color: #202020;
+	z-index: -2;
+	height: 50%;
+	width: 100%;
+}
+
+#bottom-color {
+	position: fixed;
+	top: 50%;
+	background-color: #B81D18;
+	z-index: -1;
+	height: 50%;
+	width: 100%;
+}
+
+#login-box {
+	position: fixed;
+	width: 50%;
+	height: 75%;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+	background-color: white;
+	border-radius: 25px;
+	box-shadow: 10px 10px 5px black;
+}
+
+.container {
+	position: absolute;
+	width: 90%;
+	height: 90%;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+}
+
+.form-signin-heading {
+	top: 0;
+	left: 0;
+	right: 0;
+	margin-left: auto;
+	margin-right: auto;
+	color: #202020;
+	text-align: center;
+	font-family: 'Amaranth', sans-serif;
+	font-size: 4em;
+}
+
+#sign-in-fields {
+	position: absolute;
+	top: 40%;
+	width: 90%;
+	left: 0;
+	right: 0;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#sign-in-fields .btn {
+	margin-top: 1em;
+}
+
+#sign-up {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin-left: auto;
+	margin-right: auto;
+	width: 90%;
+	text-align: center;
+}
+
+#fdm-logo {
+	position: fixed;
+	bottom: 5px;
+	right: 5px;;
+	height:
+}
+
+@media ( max-width : 430px ){
+	
+	.form-signin-heading {
+		 font-size: 2em;
+		 margin-top: -0.5em;
+	}
+}
+
+@media ( max-height : 400px){
+	.container {
+		height: 100%;
+		top: 0;
+	}
+	#form {
+		bottom: 0;
+	}
+	#sign-in-fields {
+		margin-top: 1em;
+	}
+	#sign-up {
+		display: none;
+	}
+	
+	#sign-infields{
+		top: 0;
+		bottom: 0;
+		margin-top: auto;
+		margin-bottom: auto;	
+	}
+}
+
+@media ( max-height : 512px) {
+	.form-signin-heading {
+		font-size: 2em;
+	}
+	#sign-in-fields {
+		top: 20%;
+	}
+}
