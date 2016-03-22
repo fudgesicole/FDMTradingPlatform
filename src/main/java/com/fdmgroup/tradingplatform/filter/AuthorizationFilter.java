@@ -18,7 +18,7 @@ import javax.servlet.http.HttpSession;
 /**
  * Servlet Filter implementation class LoginCheck
  */
-//@WebFilter("/*")
+@WebFilter("/*")
 public class AuthorizationFilter implements Filter {
 
 	private List<String> excludeUrls = new ArrayList<String>();
@@ -28,18 +28,13 @@ public class AuthorizationFilter implements Filter {
      * Default constructor. 
      */
     public AuthorizationFilter() {
-    	excludeUrls.add("/login.jsp");
-    	excludeUrls.add("/register.jsp");
-    	excludeUrls.add("/index.jsp");
+    	excludeUrls.add("/testLogin");
+    	excludeUrls.add("/userExists");
     	excludeUrls.add("/login");
-    	excludeUrls.add("/logout");
+    	excludeUrls.add("/register");
+    	excludeUrls.add("/");
     	
-    	excludeFolders.add("/css/");
-    	excludeFolders.add("/fonts/");
-    	excludeFolders.add("/img/");
-    	excludeFolders.add("/index_files/");
-    	excludeFolders.add("/js/");
-    	excludeFolders.add("/plugins/");
+    	excludeFolders.add("/resources/");
     }
 
 	/**
@@ -60,8 +55,9 @@ public class AuthorizationFilter implements Filter {
 			if(httpReq.getServletPath().startsWith(folder))
 				include = true;
 		}
-		if(session == null || (session.getAttribute("user") == null) && !excludeUrls.contains(httpReq.getServletPath()) && !include){
-			RequestDispatcher rd = httpReq.getRequestDispatcher("login.jsp");
+		if((session == null || (session.getAttribute("loggedInUser") == null)) && !excludeUrls.contains(httpReq.getServletPath()) && !include){
+			request.setAttribute("errMsg", "You do not have permission to access this page. If you believe this is an error, please contact an administrator.");
+			RequestDispatcher rd = httpReq.getRequestDispatcher("/");
 			rd.forward(request, response);
 		}
 		else{

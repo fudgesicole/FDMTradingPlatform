@@ -11,7 +11,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.fdmgroup.tradingplatform.model.entity.Role;
@@ -20,7 +19,7 @@ import com.fdmgroup.tradingplatform.model.entity.User;
 /**
  * Servlet Filter implementation class BrokerFilter
  */
-//@WebFilter({"/companyExists", "/deleteCompany", "/editCompany", "/companies", "/companyOptions", "/createCompany", "/companylist.jsp", "/company-options.jsp"})
+@WebFilter({"/brokerCompanyList", "/brokerUpdateCompany", "/brokerDeleteCompany", "/brokerAddCompany", "/companyExists"})
 public class BrokerFilter implements Filter {
 
 	/**
@@ -41,11 +40,10 @@ public class BrokerFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest httpReq = (HttpServletRequest) request;
-		HttpServletResponse httpRes = (HttpServletResponse) response;
 		HttpSession session = httpReq.getSession(false);
 		boolean isBroker = false;
 		if (session != null) {
-			User loggedInUser = (User) session.getAttribute("user");
+			User loggedInUser = (User) session.getAttribute("loggedInUser");
 			if (loggedInUser != null) {
 				for (Role role : loggedInUser.getRoles()) {
 					if (role.getName().equals("broker"))
@@ -54,8 +52,8 @@ public class BrokerFilter implements Filter {
 			}
 		}
 		if (!isBroker){
-			httpRes.setStatus(HttpServletResponse.SC_FORBIDDEN);
-			RequestDispatcher rd = httpReq.getRequestDispatcher("403page.jsp");
+			request.setAttribute("errMsg", "You do not have permission to access this page. If you believe this is an error, please contact an administrator.");
+			RequestDispatcher rd = httpReq.getRequestDispatcher("/");
 			rd.forward(request, response);
 		}
 		else
