@@ -20,7 +20,7 @@ public class DBCompanyDAO implements ICompanyDAO {
 	public boolean create(Company newCompany) {
 		List<AuthorizedShare> shares = newCompany.getAuthorizedShares();
 		//Hibernate cannot generate values for non id columns using sequences, so I do this manually.
-		BigDecimal nextId = dbutil.runNativeQuerySingleResult("select COMPANY_ID_SEQ.nextval from dual");
+		BigDecimal nextId = dbutil.runNativeQuerySingleResult("select MAX(COMPANY_ID) + 1 from TP_COMPANY");
 		newCompany.setId(nextId.intValue());
 		newCompany.setStockId(nextId.intValue());
 		//I cannot add an authorized share with a null company
@@ -68,7 +68,7 @@ public class DBCompanyDAO implements ICompanyDAO {
 	}
 
 	@Override
-	public Object findByName(String name) {
+	public Company findByName(String name) {
 		return dbutil.findUniqueByFields("company.readByName", "name", name);
 	}
 

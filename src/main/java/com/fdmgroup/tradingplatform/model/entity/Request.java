@@ -26,6 +26,7 @@ import javax.persistence.Table;
 @NamedQueries({
 	@NamedQuery(name = "Request.readAll", query = "SELECT r FROM Request r"),
 	@NamedQuery(name = "Request.findByUser", query = "SELECT r FROM Request r WHERE r.shareholder = :user"),
+	@NamedQuery(name = "Request.findActiveRequestsByUser", query = "SELECT r FROM Request r WHERE r.shareholder = :shareholder AND r.status = 'ACTIVE'"),
 	@NamedQuery(name = "Request.read", query = "SELECT r FROM Request r WHERE r.id = :id")
 })
 @NamedStoredProcedureQuery(name = "processRequests", procedureName = "TP_REQUEST_PKG.ProcessRequests")

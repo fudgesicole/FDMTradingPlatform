@@ -54,6 +54,10 @@ public class AuthenticationController {
 		for(Role role : loggedInUser.getRoles()){
 			if(role.getName().equals("admin"))
 				return "redirect:/userList";
+			if(role.getName().equals("shareholder"))
+				return "redirect:/portfolio";
+			if(role.getName().equals("broker"))
+				return "redirect:/brokerCompanyList";
 		}
 		model.addAttribute("errMsg", "An error occurred while displaying dashboard. Please try again. If the problem persists, contact technical support.");
 		return "forward:/";

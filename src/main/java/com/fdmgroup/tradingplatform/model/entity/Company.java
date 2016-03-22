@@ -11,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -23,12 +22,12 @@ import javax.persistence.Table;
 	@NamedQuery(name = "company.readAll", query = "SELECT c FROM Company c"),
 	@NamedQuery(name = "company.read", query = "SELECT c FROM Company c WHERE c.id = :id")
 })
-@SequenceGenerator(name="CompanySeq",sequenceName="COMPANY_ID_SEQ", allocationSize=1, initialValue=864) 
 public class Company implements IStorable, Serializable{
 	private static final long serialVersionUID = -4250483935471638891L;
 
 	@Column(name = "COMPANY_ID")
 	@Id 
+	@SequenceGenerator(name="CompanySeq",sequenceName="COMPANY_ID_SEQ", allocationSize=1, initialValue=864) 
 	private Integer id;
 	
 	@Column(name = "STOCK_ID")

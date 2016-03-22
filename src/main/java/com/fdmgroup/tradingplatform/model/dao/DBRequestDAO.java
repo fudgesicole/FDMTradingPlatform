@@ -59,4 +59,9 @@ public class DBRequestDAO implements IRequestDAO {
 		this.dbutil = dbutil;
 	}
 
+	@Override
+	public List<Request> findActiveRequestsByUser(User selectedUser) {
+		return dbutil.findListByFields("Request.findActiveRequestsByUser", "shareholder", selectedUser);
+	}
+
 }

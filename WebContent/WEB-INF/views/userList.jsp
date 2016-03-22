@@ -49,6 +49,7 @@
 				   </c:forEach>
 				  </tbody>
 				</table>
+				<script type="text/javascript" src="resources/js/dataTableSetup.js"></script>
 			</div>
 		</div>
 		

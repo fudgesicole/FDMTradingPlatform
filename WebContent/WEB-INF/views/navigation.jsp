@@ -30,12 +30,6 @@
 						<ul class="sub-menu">
 							<li><a
 								href="/TradingPlatform/userList">User List</a></li>
-							<li class="inactive"><a
-								href="/TradingPlatform/userlogs">View User Logs</a>
-							</li>
-							<li class="inactive"><a
-								href="/TradingPlatform/syslogs">View System Logs</a>
-							</li>
 						</ul></li>
 				</c:when>
 				<c:when test="${role.name == 'shareholder'}">
@@ -46,7 +40,7 @@
 							<li class="inactive"><a
 								href="/TradingPlatform/portfolio">Portfolio</a></li>
 							<li class="inactive"><a
-								href="/TradingPlatform/requests">Trade History</a></li>
+								href="/TradingPlatform/tradeHistory">Trade History</a></li>
 							<li class="inactive"><a
 								href="/TradingPlatform/requests">Requests</a></li>
 							<li class="inactive"><a
@@ -59,7 +53,7 @@
 							class="hidden-xs">Broker Actions</span></a>
 						<ul class="sub-menu">
 							<li class="inactive"><a
-								href="/TradingPlatform/companies">View Companies</a></li>
+								href="/TradingPlatform/brokerCompanyList">View Companies</a></li>
 						</ul></li>
 				</c:when>
 				<c:otherwise>

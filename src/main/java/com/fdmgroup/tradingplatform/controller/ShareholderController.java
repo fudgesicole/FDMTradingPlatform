@@ -4,7 +4,6 @@ import java.sql.Date;
 import java.util.Calendar;
 import java.util.List;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
@@ -18,10 +17,12 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.fdmgroup.tradingplatform.model.dao.ICompanyDAO;
 import com.fdmgroup.tradingplatform.model.dao.IRequestDAO;
+import com.fdmgroup.tradingplatform.model.dao.ITradeDAO;
 import com.fdmgroup.tradingplatform.model.dao.IUserDAO;
 import com.fdmgroup.tradingplatform.model.entity.Company;
 import com.fdmgroup.tradingplatform.model.entity.Request;
 import com.fdmgroup.tradingplatform.model.entity.Share;
+import com.fdmgroup.tradingplatform.model.entity.Trade;
 import com.fdmgroup.tradingplatform.model.entity.User;
 
 @Controller
@@ -39,6 +40,9 @@ public class ShareholderController {
 
 	@Autowired
 	private IRequestDAO requestDAO;
+	
+	@Autowired
+	private ITradeDAO tradeDAO;
 	
 	@RequestMapping(value = "/buyShares", method = {RequestMethod.POST, RequestMethod.GET})
 	public String index(Model model){
@@ -58,7 +62,8 @@ public class ShareholderController {
 			model.addAttribute("errMsg", "An error occurred while processing your request. Please try again.");
 		}
 		model.addAttribute("shares", shares);
-		return "portfolio2";
+		model.addAttribute("sellRequest", (Request) context.getBean("request"));
+		return "portfolio";
 	}
 
 	@RequestMapping(value = "/buy", method = {RequestMethod.POST, RequestMethod.GET})
@@ -80,6 +85,47 @@ public class ShareholderController {
 		
 		model.addAttribute("successMsg", "Request sent!");
 		return "forward:/buyShares";
+	}
+
+	@RequestMapping(value = "/sell", method = {RequestMethod.POST, RequestMethod.GET})
+	public String sell(Request sellRequest,  @RequestParam Integer companyId, BindingResult br, Model model, @ModelAttribute("loggedInUser") User loggedInUser){
+		if (br.hasErrors()) {
+			model.addAttribute("errMsg", "An error occurred while processing your request. Please try again.");
+			return "forward:/portfolio";
+		}
+		sellRequest.setCompany(companyDAO.read(companyId));
+		sellRequest.setRequestDate(new Date(Calendar.getInstance().getTime().getTime()));
+		sellRequest.setShareholder(userDAO.read(loggedInUser.getId()));
+		sellRequest.setSharesFilled(0);
+		sellRequest.setStatus("ACTIVE");
+		sellRequest.setType("SELL");
+		if(!requestDAO.create(sellRequest)){
+			model.addAttribute("errMsg", "An error occurred while processing your request. Please try again.");
+			return "forward:/portfolio";
+		}
+		
+		model.addAttribute("successMsg", "Request sent!");
+		return "forward:/portfolio";
+	}
+
+	@RequestMapping(value = "/requests", method = {RequestMethod.POST, RequestMethod.GET})
+	public String requests(Model model, @ModelAttribute("loggedInUser") User loggedInUser){
+		List<Request> requests = requestDAO.findActiveRequestsByUser(loggedInUser);
+		if(requests == null){
+			model.addAttribute("errMsg", "An error occurred while processing your request. Please try again.");
+		}
+		model.addAttribute("requests", requests);
+		return "outstandingTradeRequests";
+	}
+
+	@RequestMapping(value = "/tradeHistory", method = {RequestMethod.POST, RequestMethod.GET})
+	public String tradeHistory(Model model, @ModelAttribute("loggedInUser") User loggedInUser){
+		List<Trade> trades = tradeDAO.findTradesByUser(loggedInUser);
+		if(trades == null){
+			model.addAttribute("errMsg", "An error occurred while processing your request. Please try again.");
+		}
+		model.addAttribute("trades", trades);
+		return "tradeHistory";
 	}
 
 	public IUserDAO getUserDAO() {
@@ -112,6 +158,14 @@ public class ShareholderController {
 
 	public void setContext(ApplicationContext context) {
 		this.context = context;
+	}
+
+	public ITradeDAO getTradeDAO() {
+		return tradeDAO;
+	}
+
+	public void setTradeDAO(ITradeDAO tradeDAO) {
+		this.tradeDAO = tradeDAO;
 	}
 	
 }

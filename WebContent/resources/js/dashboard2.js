@@ -16,7 +16,6 @@ $(document).ready(function() {
 	$('body .dropdown-toggle').dropdown();
 	
 	$('.sub-menu li, .dropdown-menu li').click(function(event){
-		console.log('here');
 		window.open($(this).find('a').attr('href'),"_self");
 	});
 	$('a').click(function(event){

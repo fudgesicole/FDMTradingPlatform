@@ -8,4 +8,5 @@ import com.fdmgroup.tradingplatform.model.entity.User;
 
 public interface IRequestDAO extends IStorage<Request> {
 	List<Request> findRequestsByUser(User selectedUser);
+	List<Request> findActiveRequestsByUser(User selectedUser);
 }

@@ -21,7 +21,7 @@ import javax.persistence.Table;
 @Table(name="tp_trade")
 @NamedQueries({
 	@NamedQuery(name = "trade.read", query = "SELECT t FROM Trade t WHERE t.id = :id"),
-	@NamedQuery(name = "trade.findByUser", query = "SELECT t FROM Trade t WHERE t.buyer = :user OR t.seller = :user"),
+	@NamedQuery(name = "Trade.findByUser", query = "SELECT t FROM Trade t WHERE t.buyer = :user OR t.seller = :user"),
 	@NamedQuery(name = "trade.readAll", query = "SELECT t FROM Trade t")
 })
 public class Trade implements IStorable, Serializable{
