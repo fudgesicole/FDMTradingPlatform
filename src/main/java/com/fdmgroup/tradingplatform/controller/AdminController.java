@@ -18,6 +18,9 @@ import com.fdmgroup.tradingplatform.model.dao.IUserDAO;
 import com.fdmgroup.tradingplatform.model.entity.Role;
 import com.fdmgroup.tradingplatform.model.entity.User;
 
+/**
+ * Request mappings for administrator actions 
+ */
 @Controller
 @SessionAttributes(value = { "loggedInUser" }, types = { User.class })
 public class AdminController {
@@ -35,10 +38,13 @@ public class AdminController {
 	public String userList(Model model){
 		List<User> users = userDAO.readAll();
 		if(users == null || users.size() == 0){
+			//This 'errMsg' attribute is displayed in a modal when the page loads
 			model.addAttribute("errMsg", "An error while searching for users. Please try again. If the problem persists, contact technical support.");
 			return "userList";
 		}
 		model.addAttribute("users", users);
+		//the user bean is a prototype bean, so this will be a new user
+		//that will be populated by the spring form if the admin edits or adds a user.
 		model.addAttribute("user", (User) context.getBean("user"));
 		return "userList";
 	}
@@ -49,14 +55,17 @@ public class AdminController {
 			model.addAttribute("errMsg", "An error occurred while processing your request. Please try again.");
 			return "forward:/userList";
 		}
-		User existingUser = userDAO.findByUserName(user.getUserName());
 
+		//usernames should be unique
+		User existingUser = userDAO.findByUserName(user.getUserName());
 		if (existingUser != null) {
 			model.addAttribute("errMsg", "Username is already taken.");
 			return "forward:/userList";
 		}
+		
+		/*For every role name specified add it to the user's list of roles.
+		 * If the role does not yet exist in the database, create it*/
 		List<Role> roles = new ArrayList<Role>();
-
 		for (String name : roleNames) {
 			Role foundRole = roleDAO.findByName(name);
 
@@ -76,8 +85,10 @@ public class AdminController {
 			model.addAttribute("errMsg", "An error occurred while processing your request. Please try again.");
 			return "forward:/userList";
 		}
-		model.addAttribute("successMsg", "Successfully registered new user!");
-		return "forward:/userList";
+		else{
+			model.addAttribute("successMsg", "Successfully registered new user!");
+			return "forward:/userList";
+		}
 	}
 
 	@RequestMapping(value="/adminDeleteUser", method = {RequestMethod.GET, RequestMethod.POST})
@@ -87,23 +98,25 @@ public class AdminController {
 			model.addAttribute("errMsg", "An error occurred while processing your request. Please try again.");
 			return "forward:/userList";
 		}
-		
-		model.addAttribute("successMsg", "User " + targetUser.getUserName()+", " + targetUser.getFirstName() + " " + targetUser.getLastName() + " has been deleted.");
-		return "forward:/userList";
+		else{
+			model.addAttribute("successMsg", "User " + targetUser.getUserName()+", " + targetUser.getFirstName() + " " + targetUser.getLastName() + " has been deleted.");
+			return "forward:/userList";
+		}
 	}
 
 	@RequestMapping(value="/adminEditUser", method = {RequestMethod.GET, RequestMethod.POST})
-	public String adminEditUser(Model model, User userDetails, @RequestParam List<String> roleNames, BindingResult br){
-		User dbUser= userDAO.read(userDetails.getId());
-		if (dbUser == null) {
+	public String adminEditUser(Model model, User userAttribute, @RequestParam List<String> roleNames, BindingResult br){
+		User persistentUser = userDAO.read(userAttribute.getId());
+		if (persistentUser == null) {
 			model.addAttribute("errMsg", "This user could not be found. Please try again.");
 			return "forward:/userList";
 		}
 		
-		
-		dbUser.setFirstName(userDetails.getFirstName());
-		dbUser.setLastName(userDetails.getLastName());
-		dbUser.setUserName(userDetails.getUserName());
+		//Need to set the fields of the actual, persistent user from the database and call merge on that,
+		//as opposed to the one from the spring form, which contains only the relevant, updated info
+		persistentUser.setFirstName(userAttribute.getFirstName());
+		persistentUser.setLastName(userAttribute.getLastName());
+		persistentUser.setUserName(userAttribute.getUserName());
 		
 		List<Role> roles = new ArrayList<Role>();
 		for (String name : roleNames) {
@@ -119,16 +132,17 @@ public class AdminController {
 			}
 			roles.add(roleDAO.findByName(name));
 		}
-		dbUser.setRoles(roles);
+		persistentUser.setRoles(roles);
 		
-		dbUser = userDAO.update(dbUser);
-		
-		if(dbUser == null){
+		persistentUser = userDAO.update(persistentUser);
+		if(persistentUser == null){
 			model.addAttribute("errMsg", "An error occurred while processing your request. Please try again.");
 			return "forward:/userList";
 		}
-		model.addAttribute("successMsg", "Successfully updated user!");
-		return "forward:/userList";
+		else{
+			model.addAttribute("successMsg", "Successfully updated user!");
+			return "forward:/userList";
+		}
 	}
 
 	public IUserDAO getUserDAO() {
