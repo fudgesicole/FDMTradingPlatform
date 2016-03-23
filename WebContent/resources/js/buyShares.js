@@ -6,8 +6,4 @@ $(document).ready(function() {
 		$('#buy-company-name').text(companyName);
 		$('#add-request-modal').modal('show');
 	});
-	$('table').DataTable({
-		"pagingType" : "full_numbers",
-		"lengthMenu" : [ [ 5, 10, 25, -1 ], [ 5, 10, 25, "All" ] ]
-	});
 });
