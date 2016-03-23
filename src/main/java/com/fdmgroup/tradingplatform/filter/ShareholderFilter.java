@@ -18,6 +18,7 @@ import com.fdmgroup.tradingplatform.model.entity.User;
 
 /**
  * Servlet Filter implementation class ShareholderFilter
+ * Filters access to all URLs accessible only by shareholder users.
  */
 @WebFilter({"/buyShares", "/portfolio", "/buy", "/sell", "/requests", "/tradeHistory"})
 public class ShareholderFilter implements Filter {
@@ -31,7 +32,6 @@ public class ShareholderFilter implements Filter {
 	 * @see Filter#destroy()
 	 */
 	public void destroy() {
-		// TODO Auto-generated method stub
 	}
 
 	/**
@@ -51,7 +51,9 @@ public class ShareholderFilter implements Filter {
 			}
 		}
 		if (!isShareholder){
+			//this errMsg attribute is displayed in a modal on page load.
 			request.setAttribute("errMsg", "You do not have permission to access this page. If you believe this is an error, please contact an administrator.");
+			//forward back to the index page.
 			RequestDispatcher rd = httpReq.getRequestDispatcher("/");
 			rd.forward(request, response);
 		}
@@ -63,7 +65,6 @@ public class ShareholderFilter implements Filter {
 	 * @see Filter#init(FilterConfig)
 	 */
 	public void init(FilterConfig fConfig) throws ServletException {
-		// TODO Auto-generated method stub
 	}
 
 }

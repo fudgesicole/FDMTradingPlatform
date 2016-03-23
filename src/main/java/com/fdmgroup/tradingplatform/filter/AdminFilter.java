@@ -18,6 +18,7 @@ import com.fdmgroup.tradingplatform.model.entity.User;
 
 /**
  * Servlet Filter implementation class AdminFilter
+ * Filters access to all URLs accessible only by admin users.
  */
 @WebFilter({"/userList", "/adminAddUser", "/adminDeleteUser", "/adminEditUser"})
 public class AdminFilter implements Filter {
@@ -51,7 +52,9 @@ public class AdminFilter implements Filter {
 			}
 		}
 		if (!isAdmin){
+			//this errMsg attribute is displayed in a modal on page load.
 			request.setAttribute("errMsg", "You do not have permission to access this page. If you believe this is an error, please contact an administrator.");
+			//forward back to the index page.
 			RequestDispatcher rd = httpReq.getRequestDispatcher("/");
 			rd.forward(request, response);
 		}
