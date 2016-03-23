@@ -26,6 +26,7 @@
 				      <th>Roles</th>
 				      <th>Edit</th>
 				      <th>Delete</th>
+				      <th>Reset password</th>
 				      <th class="userId">ID</th>
 				    </tr>
 				  </thead>
@@ -43,6 +44,7 @@
 				      	</td>
 				      	<td><button type="button" class="btn btn-default user-edit-btn"><i class="fa fa-pencil-square-o"></i></button></td>
 				      	<td><button type="button" class="btn btn-default user-delete-btn"><i class="fa fa-trash"></i></button></td>
+				      	<td><button type="button" class="btn btn-default pw-reset-btn"><i class="glyphicon glyphicon-repeat"></i></button></td>
 				      	<td class="userId">${user.id}</td>
 				    	</tr>
 				    	</c:if>
@@ -140,6 +142,29 @@
 				             <div class="modal-footer ">
 				                    <button type="submit" id="register-btn" class="btn btn-danger btn-lg" style="width: 100%;">
 				                           <span class="glyphicon glyphicon-ok-sign"></span> Delete user
+				                    </button>
+				           </div>
+			          </sf:form>
+			      </div>
+			      <!-- /.modal-content -->
+			</div>
+			<!-- /.modal-dialog -->
+	    </div>
+
+		<div class="modal fade" id="reset-password-modal" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+			      <div class="modal-content">
+			             <div class="modal-header">
+			                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+			                           <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+			                    </button>
+			                    <h1 class="modal-title custom_align" id="Heading">Reset <span id="reset-pw-name"></span>'s password, are you sure?</h1>
+			             </div>
+			             <sf:form id="reset-password-form" class="no-confirm" action="adminResetPassword" method="post">
+			             	<input type="hidden" id="reset-password-user-id" name="id"/>
+				             <div class="modal-footer ">
+				                    <button type="submit" id="register-btn" class="btn btn-danger btn-lg" style="width: 100%;">
+				                           <span class="glyphicon glyphicon-ok-sign"></span> Reset password
 				                    </button>
 				           </div>
 			          </sf:form>

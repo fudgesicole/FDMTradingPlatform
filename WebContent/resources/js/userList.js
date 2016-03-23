@@ -135,6 +135,14 @@ $(document).ready(function() {
 		$('#delete-user-id').val(id);
 		$('#delete-user-modal').modal('show');
 	});
+
+	$(document).on('click', '.pw-reset-btn', function(event){
+		var id = $(this).closest('tr').find('.userId').text();
+		var username = $(this).closest('tr').find('.userName').text();
+		$('#reset-password-user-id').val(id);
+		$('#reset-pw-name').text(username);
+		$('#reset-password-modal').modal('show');
+	});
 	
 	$(document).on('click', '.user-edit-btn', function(event){
 		var row = $(this).closest('tr');

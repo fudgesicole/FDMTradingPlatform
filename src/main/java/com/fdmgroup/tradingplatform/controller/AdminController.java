@@ -106,6 +106,20 @@ public class AdminController {
 			return "forward:/userList";
 		}
 	}
+	
+	@RequestMapping(value="/adminResetPassword", method = {RequestMethod.GET, RequestMethod.POST})
+	public String adminResetPassword(Model model, @RequestParam Integer id){
+		User targetUser = userDAO.read(id);
+		targetUser.setPassWord("password");
+		if ((targetUser = userDAO.update(targetUser)) == null) {
+			model.addAttribute("errMsg", "An error occurred while processing your request. Please try again.");
+			return "forward:/userList";
+		}
+		else{
+			model.addAttribute("successMsg", targetUser.getUserName() + "'s password has been reset to: 'password'. Please encourage this user to log in and change their password as soon as possible.");
+			return "forward:/userList";
+		}
+	}
 
 	@RequestMapping(value="/adminEditUser", method = {RequestMethod.GET, RequestMethod.POST})
 	public String adminEditUser(Model model, User userAttribute, @RequestParam List<String> roleNames, BindingResult br){
