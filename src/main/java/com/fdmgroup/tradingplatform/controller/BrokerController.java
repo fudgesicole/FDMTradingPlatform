@@ -26,6 +26,11 @@ import com.fdmgroup.tradingplatform.model.entity.Request;
 import com.fdmgroup.tradingplatform.model.entity.Role;
 import com.fdmgroup.tradingplatform.model.entity.User;
 
+/**
+ * Request mappings for broker actions. URL mappings in this class
+ * are only accessible through the filter when the loggedInUser is 
+ * has the 'broker' role.
+ */
 @Controller
 @SessionAttributes(value = {"loggedInUser"}, types = {User.class})
 public class BrokerController {
@@ -52,6 +57,8 @@ public class BrokerController {
 			model.addAttribute("errMsg", "An error occurred while processing your request. Please try again.");
 		}
 		model.addAttribute("companies", companies);
+		//This company attribute's fields will be populated by spring forms for 
+		//new company creation or company editing.
 		model.addAttribute("companyAttribute", (Company) context.getBean("company"));
 		return "brokerCompanyList";
 	}
@@ -62,6 +69,8 @@ public class BrokerController {
 			model.addAttribute("errMsg", "An error occurred while processing your request. Please try again.");
 			return "forward:/brokerCompanyList";
 		}
+		//need to set the fields of the persistent company from the database,
+		//not the companyAttribute from the form, which contains only a name.
 		Company updatedCompany = companyDAO.read(companyAttribute.getId());
 		if(updatedCompany == null){
 			model.addAttribute("errMsg", "Company not found!");
@@ -73,8 +82,10 @@ public class BrokerController {
 			model.addAttribute("errMsg", "An error occurred while processing your request. Please try again.");
 			return "forward:/brokerCompanyList";
 		}
-		model.addAttribute("successMsg", "Company created successfully!");
-		return "forward:/brokerCompanyList";
+		else{
+			model.addAttribute("successMsg", "Company created successfully!");
+			return "forward:/brokerCompanyList";
+		}
 	}
 
 	@RequestMapping(value="/brokerDeleteCompany", method = {RequestMethod.GET, RequestMethod.POST})
@@ -83,6 +94,9 @@ public class BrokerController {
 			model.addAttribute("errMsg", "An error occurred while processing your request. Please try again.");
 			return "forward:/brokerCompanyList";
 		}
+		
+		//the companyAttribute from the form only contains id.
+		//we need to read the actual company to delete with JPA
 		Company targetCompany = companyDAO.read(companyAttribute.getId());
 		if(targetCompany == null){
 			model.addAttribute("errMsg", "Company not found!");
@@ -103,6 +117,7 @@ public class BrokerController {
 			model.addAttribute("errMsg", "An error occurred while processing your request. Please try again.");
 			return "forward:/userList";
 		}
+		//Need to create an authorized share object to record the initial number of shares to sell for this company.
 		AuthorizedShare initialAuthorizedShares = new AuthorizedShare();
 		List<AuthorizedShare> initialAuthorizedSharesList = new ArrayList<AuthorizedShare>();
 		initialAuthorizedShares.setCompany(companyAttribute);
@@ -113,6 +128,7 @@ public class BrokerController {
 		companyAttribute.setAuthorizedShares(initialAuthorizedSharesList);
 		
 		if(companyDAO.findByName(companyAttribute.getName()) != null){
+			//If a company with the given name already exists
 			model.addAttribute("errMsg", "A company named "+companyAttribute.getName()+" already exists.");
 			return "forward:/brokerCompanyList";
 		}
@@ -167,6 +183,11 @@ public class BrokerController {
 		return "forward:/brokerCompanyList";
 	}
 
+	/**
+	 * Check if a company with the given name exists in the database
+	 * @param name
+	 * @return true if a company with the argument name is found, false otherwise.
+	 */
 	@RequestMapping(value = "/companyExists", method = { RequestMethod.GET, RequestMethod.POST })
 	public @ResponseBody boolean companyExists(String name) {
 		return (companyDAO.findByName(name) != null);
