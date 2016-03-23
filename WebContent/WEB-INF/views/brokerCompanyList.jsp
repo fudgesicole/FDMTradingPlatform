@@ -7,15 +7,16 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE html>
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
-<jsp:include page="styles.jsp"></jsp:include>
-<jsp:include page="imports.jsp"></jsp:include>
-<script type="text/javascript" src="resources/js/brokerCompanyList.js"></script>
-</head>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+		<title>Companies</title>
+		<jsp:include page="styles.jsp"></jsp:include>
+		<link rel="stylesheet" href="resources/css/brokerCompanyList.css">
+		<jsp:include page="imports.jsp"></jsp:include>
+		<script type="text/javascript" src="resources/js/brokerCompanyList.js"></script>
+	</head>
 <body>
-<jsp:include page="navigation.jsp"></jsp:include>
+	<jsp:include page="navigation.jsp"></jsp:include>
 	<div id="content">
 		<div id="ajax-content">
 			<button id="add-company-modal-btn" data-toggle="modal" data-target="#add-company-modal" class="btn btn-danger glyphicon glyphicon-plus">Add Company</button>
