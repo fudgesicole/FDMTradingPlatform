@@ -41,7 +41,23 @@ function editUserExists(){
 	});
 }
 
+function passwordConfirm(){
+	var password = $('#register-password-input').val();
+	var passwordConfirmation = $('#register-password-confirm-input').val();
+	if(password != passwordConfirmation){
+		$('#register-password-input').get(0).setCustomValidity('Passwords do not match.');
+		$('#password-match-msg').show();
+	}
+	else{
+		$('#register-password-input').get(0).setCustomValidity('');
+		$('#password-match-msg').hide();
+	}
+}
+
 $(document).ready(function() {
+	$('#register-password-confirm-input').keyup(passwordConfirm);
+	$('#register-password-input').keyup(passwordConfirm);
+	
 	$('#register-username-input').keyup(addUserExists);
 	$('#edit-userName-input').keyup(editUserExists);
 	$('#register-btn').click(function(event){
@@ -59,6 +75,8 @@ $(document).ready(function() {
 		else{
 			$('#admin-box').get(0).setCustomValidity('');
 		}
+		
+		passwordConfirm();
 	});
 
 	$('#register-form input').bind("enterKey", function(event){

@@ -67,26 +67,35 @@
 			                    <div class="form-group">
 			                    	<div class="input-group">
 			                    		<span class="input-group-addon">Username</span> 
-										<sf:input path="userName" class="red-glow form-control" type="text" autocomplete="off" name="userName" max-length="50" required="required" id="register-username-input"/>
+										<sf:input path="userName" class="input-lg red-glow form-control" type="text" autocomplete="off" name="userName" max-length="50" required="required" id="register-username-input"/>
 			                        </div> 
 			                    </div>
 			                    <p style="display: none;" id="user-exists">*This username is already taken. Please try another.</p>
 			                    <div class="form-group">
 			                    	<div class="input-group">
-			                    		<span class="input-group-addon">Password</span> 
-										<sf:input path="passWord" class="red-glow form-control" type="password" name="userName" max-length="50" required="required" id="register-password-input"/>
+			                    		<span class="input-group-addon input-lg">Password</span> 
+										<sf:input path="passWord" class="input-lg red-glow form-control" type="password" name="userName" max-length="50" required="required" id="register-password-input"/>
 			                        </div> 
 			                    </div>
 			                    <div class="form-group">
+									<div class="input-group">
+										<span class="input-group-addon">Confirm Password</span>
+										<input class="red-glow form-control input-lg"
+											type="password"
+											required="required" id="register-password-confirm-input" />
+									</div>
+								</div>
+								<p style="display: none;" id="password-match-msg">*Passwords do not match</p>
+			                    <div class="form-group">
 			                    	<div class="input-group">
 			                    		<span class="input-group-addon">First Name</span> 
-										<sf:input path="firstName" class="red-glow form-control" type="text" name="firstName" max-length="50" required="required" id="register-firstname-input"/>
+										<sf:input path="firstName" class="input-lg red-glow form-control" type="text" name="firstName" max-length="50" required="required" id="register-firstname-input"/>
 			                        </div> 
 			                    </div>
 			                    <div class="form-group">
 			                    	<div class="input-group">
 			                    		<span class="input-group-addon">Last Name</span> 
-										<sf:input path="lastName" class="red-glow form-control" type="text" name="lastName" max-length="50" required="required" id="register-lastname-input"/>
+										<sf:input path="lastName" class="input-lg red-glow form-control" type="text" name="lastName" max-length="50" required="required" id="register-lastname-input"/>
 			                        </div> 
 			                    </div>
 			                    
