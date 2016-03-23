@@ -3,6 +3,7 @@ package com.fdmgroup.tradingplatform.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
@@ -80,7 +81,9 @@ public class AdminController {
 			roles.add(roleDAO.findByName(name));
 		}
 		user.setRoles(roles);
-
+		
+		//Hash the user's password
+		user.setPassWord(BCrypt.hashpw(user.getPassWord(), BCrypt.gensalt(4)));
 		if (!userDAO.create(user)) {
 			model.addAttribute("errMsg", "An error occurred while processing your request. Please try again.");
 			return "forward:/userList";

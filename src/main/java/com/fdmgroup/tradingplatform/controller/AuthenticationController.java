@@ -3,6 +3,7 @@ package com.fdmgroup.tradingplatform.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
@@ -101,6 +102,8 @@ public class AuthenticationController {
 		}
 		user.setRoles(roles);
 
+		//Hash the user's password
+		user.setPassWord(BCrypt.hashpw(user.getPassWord(), BCrypt.gensalt(4)));
 		if (!userDAO.create(user)) {
 			model.addAttribute("errMsg", "An error occurred while processing your request. Please try again.");
 			return "forward:/";
@@ -118,13 +121,25 @@ public class AuthenticationController {
 			return "forward:/";
 		}
 		User foundUser = userDAO.findByUserName(userDetails.getUserName());
-		if(foundUser == null || !foundUser.getPassWord().equals(userDetails.getPassWord())){
+		if(foundUser == null || !pwCheck(userDetails.getPassWord(), foundUser.getPassWord())){
 			model.addAttribute("errMsg", "Invalid username/password. Please try again.");
 			return "forward:/";
 		}
-		else{
-			model.addAttribute("loggedInUser", foundUser);
-			return "forward:/dashboard";
+		model.addAttribute("loggedInUser", foundUser);
+		return "forward:/dashboard";
+	}
+
+	/**
+	 * Compare a client provided password to a password from the database that may or may not be hashed.
+	 * @param clientPW the password provided by the user
+	 * @param databasePW the actual password in the database
+	 * @return true if the passwords match, or if the hash of the client password matches the database password
+	 */
+	private boolean pwCheck(String clientPW, String databasePW) {
+		try{
+			return BCrypt.checkpw(clientPW, databasePW);
+		} catch(IllegalArgumentException e){
+			return clientPW.equals(databasePW);
 		}
 	}
 
@@ -150,7 +165,7 @@ public class AuthenticationController {
 		if(foundUser == null){
 			return false;
 		}
-		return foundUser.getPassWord().equals(passWord);
+		return pwCheck(passWord, foundUser.getPassWord());
 	}
 
 	public IUserDAO getUserDAO() {
