@@ -56,7 +56,33 @@ $(document).ready(function(){
 		$('#invalid-login').hide();
 	});
 	
-	$('#register-btn').click(function(event){
+	$('#register-password-input').keyup(function(event){
+		var password = $('#register-password-input').val();
+		var passwordConfirmation = $('#register-password-confirm-input').val();
+		if(password != passwordConfirmation){
+			$('#register-password-input').get(0).setCustomValidity('Passwords do not match.');
+			$('#password-match-msg').show();
+		}
+		else{
+			$('#register-password-input').get(0).setCustomValidity('');
+			$('#password-match-msg').hide();
+		}
+	});
+
+	$('#register-password-confirm-input').keyup(function(event){
+		var password = $('#register-password-input').val();
+		var passwordConfirmation = $('#register-password-confirm-input').val();
+		if(password != passwordConfirmation){
+			$('#register-password-input').get(0).setCustomValidity('Passwords do not match.');
+			$('#password-match-msg').show();
+		}
+		else{
+			$('#register-password-input').get(0).setCustomValidity('');
+			$('#password-match-msg').hide();
+		}
+	});
+	
+	$(document).on('click', '#register-submit-btn', function(event){
 		if($('#admin-box').get(0).checked){
 			if($('#shareholder-box').get(0).checked || $('#company-box').get(0).checked  || $('#broker-box').get(0).checked){
 				$('#admin-box').get(0).setCustomValidity('You may not combine admin with other roles.');
@@ -70,6 +96,17 @@ $(document).ready(function(){
 		}
 		else{
 			$('#admin-box').get(0).setCustomValidity('');
+		}
+		
+		var password = $('#register-password-input').val();
+		var passwordConfirmation = $('#register-password-confirm-input').val();
+		if(password != passwordConfirmation){
+			$('#register-password-input').get(0).setCustomValidity('Passwords do not match.');
+			$('#password-match-msg').show();
+		}
+		else{
+			$('#register-password-input').get(0).setCustomValidity('');
+			$('#password-match-msg').hide();
 		}
 	});
 

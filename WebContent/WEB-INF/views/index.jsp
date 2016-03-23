@@ -41,12 +41,12 @@
 
 				<c:otherwise>
 					<ul class="navbar-opt navbar-right">
-						<button class="btn btn-info btn-auth"
-							href="/TradingPlatform/dashboard" id="dashboard-btn">Dashboard</button>
+						<a class="btn btn-info btn-auth" href="/TradingPlatform/dashboard"
+							 id="dashboard-btn">Dashboard</a>
 					</ul>
 					<ul class="navbar-opt navbar-right">
-						<button class="btn btn-info btn-auth"
-							href="/TradingPlatform/logout" id="logout-btn">Logout</button>
+						<a class="btn btn-info btn-auth"
+							href="/TradingPlatform/logout" id="logout-btn">Logout</a>
 					</ul>
 				</c:otherwise>
 			</c:choose>
@@ -156,10 +156,19 @@
 							<div class="input-group">
 								<span class="input-group-addon">Password</span>
 								<sf:input path="passWord" class="red-glow form-control input-lg"
-									type="password" name="userName" max-length="50"
+									type="password" name="passWord" max-length="50"
 									required="required" id="register-password-input" />
 							</div>
 						</div>
+						<div class="form-group">
+							<div class="input-group">
+								<span class="input-group-addon">Confirm Password</span>
+								<input class="red-glow form-control input-lg"
+									type="password"
+									required="required" id="register-password-confirm-input" />
+							</div>
+						</div>
+						<p style="display: none;" id="password-match-msg">*Passwords do not match</p>
 						<div class="form-group">
 							<div class="input-group">
 								<span class="input-group-addon">First Name</span>
@@ -197,7 +206,7 @@
 
 					</div>
 					<div class="modal-footer ">
-						<button type="submit" id="register-btn"
+						<button type="submit" id="register-submit-btn"
 							class="btn btn-danger btn-lg" style="width: 100%;">
 							<span class="glyphicon glyphicon-ok-sign"></span> Register
 						</button>
