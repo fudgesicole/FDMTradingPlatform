@@ -13,7 +13,7 @@
 		<p id="welcome">Hello, ${sessionScope.loggedInUser.firstName}
 			${sessionScope.loggedInUser.lastName}</p>
 		<div id="power-button">
-			<a class="glyphicon glyphicon-off" href="/TradingPlatform/logout"></a>
+			<a class="btn btn-default glyphicon glyphicon-off" href="/TradingPlatform/logout"></a>
 		</div>
 	</div>
 </header>
