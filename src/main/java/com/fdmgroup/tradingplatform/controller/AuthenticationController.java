@@ -129,6 +129,35 @@ public class AuthenticationController {
 		return "forward:/dashboard";
 	}
 
+	@RequestMapping(value = "/updatePassword", method = { RequestMethod.POST, RequestMethod.GET })
+	public String updatePassword(Model model, @RequestParam String oldPassWord, @RequestParam String newPassWord, @ModelAttribute("loggedInUser") User loggedInUser, BindingResult br) {
+		if (br.hasErrors()) {
+			model.addAttribute("errMsg", "An error occurred while logging in. Please try again.");
+			return "forward:/";
+		}
+		User foundUser = userDAO.findByUserName(loggedInUser.getUserName());
+		if(foundUser == null){
+			model.addAttribute("errMsg", "An error occurred while processing your request. Please try again. If the problem persists, contact support.");
+			return "forward:/dashboard";
+		}
+		else if(!pwCheck(oldPassWord, foundUser.getPassWord())){
+			model.addAttribute("errMsg", "Invalid password. Please try again.");
+			return "forward:/dashboard";
+		}
+		else{
+			foundUser.setPassWord(BCrypt.hashpw(newPassWord, BCrypt.gensalt(4)));
+			if((foundUser = userDAO.update(foundUser)) == null){
+				model.addAttribute("errMsg", "An error occurred while updating your password. Please try again. If the problem persists, contact support.");
+				return "forward:/dashboard";
+			}
+			else{
+				model.addAttribute("loggedInUser", foundUser);
+				model.addAttribute("successMsg", "Password successfully updated.");
+				return "forward:/dashboard";
+			}
+		}
+	}
+
 	/**
 	 * Compare a client provided password to a password from the database that may or may not be hashed.
 	 * @param clientPW the password provided by the user

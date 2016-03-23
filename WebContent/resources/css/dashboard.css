@@ -45,12 +45,17 @@ header{
 
 #user-widget{
 	position: absolute;
+	color: #B81D18 !important;
 	top: 0;
 	right: 0;
 	height: 100%;
 	width: auto;
 	min-width: 10%;
 	text-align: center;
+}
+
+#user-widget *{
+	color: #B81D18 !important;
 }
 
 #user-widget .glyphicon-off{
@@ -60,6 +65,10 @@ header{
 }
 #user-widget .glyphicon-off:HOVER{
 	color: #71120f !important;
+	cursor: pointer;
+}
+
+#change-pw-btn:HOVER{
 	cursor: pointer;
 }
 
@@ -217,7 +226,7 @@ tr .fa{
 }
 
 /*dropdown css*/
-.dropdown.open .dropdown-menu{
+.sidebar-dropdown.dropdown.open .dropdown-menu{
 	position: absolute;
 	display: block;
 	left: 100%;
@@ -231,57 +240,57 @@ tr .fa{
 }
 
 
-.dropdown-toggle{
+.sidebar-dropdown.dropdown-toggle{
 	background-color: #202020 !important;
 	border-bottom: thin solid #B6B6B6 !important;
 }
 
-.dropdown-toggle:HOVER{
+.sidebar-dropdown.dropdown-toggle:HOVER{
 	background-color: #363636 !important;
 }
 
-.dropdown.open .dropdown-toggle{
+.sidebar-dropdown.dropdown.open .sidebar-dropdown.dropdown-toggle{
 	background-color: #363636 !important;
 }
 
-.dropdown-menu li{
+.sidebar-dropdown.dropdown-menu li{
 	background-color: #202020;
 }
 
-.dropdown-menu li a:HOVER, .dropdown-menu li:not(.inactive) a{
+.sidebar-dropdown.dropdown-menu li a:HOVER, .sidebar-dropdown.dropdown-menu li:not(.inactive) a{
 	background-color: #363636 !important;
 }
 
-.sub-menu{
+.sidebar-dropdown.sub-menu{
 	padding-left: 0;
 	margin-left: 0;
 	width: 100%;
 	display: inherit;
 }
 
-.sub-menu li{
+.sidebar-dropdown.sub-menu li{
 	list-style-type: none;
 	padding-left: 0;
 	margin-left: 0;
 	width: 100%;
 	display: inherit;
 }
-.dropdown:not(.open) .sub-menu li{
+.sidebar-dropdown.dropdown:not(.open) .sidebar-dropdown.sub-menu li{
 	display: none !important;
 }
 
-.dropdown-menu li:HOVER, .sub-menu li:HOVER, .sub-menu li:not(.inactive){
+.sidebar-dropdown.dropdown-menu li:HOVER, .sidebar-dropdown.sub-menu li:HOVER, .sidebar-dropdown.sub-menu li:not(.inactive){
 	background-color: #363636;
 	cursor: pointer;
 }
 
-.sub-menu li a{
+.sidebar-dropdown.sub-menu li a{
 	text-decoration: none;
 	width: 100%;
 	height: 100%;
 }
 
-.sub-menu{
+.sidebar-dropdown.sub-menu{
 	position: relative !important;
 	width: inherit !important;
 	border-radius: 0 !important;
@@ -291,7 +300,7 @@ tr .fa{
 	border-bottom: thin solid #B6B6B6 !important;
 }
 
-.sub-menu li{
+.sidebar-dropdown.sub-menu li{
 	position: relative !important;
 	width: inherit !important;
 	border-radius: 0 !important;
@@ -300,7 +309,7 @@ tr .fa{
 	-moz-webshadow: none !important;
 }
 
-.dropdown-toggle i{
+.sidebar-dropdown.dropdown-toggle i{
 	clear: right;
 }
 
