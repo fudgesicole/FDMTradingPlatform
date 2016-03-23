@@ -6,6 +6,9 @@ import com.fdmgroup.tradingplatform.model.entity.Role;
 import com.fdmgroup.tradingplatform.model.entity.User;
 import com.fdmgroup.tradingplatform.util.DBUtil;
 
+/**
+ * Implementation of Role Data Access Object
+ */
 public class DBRoleDAO implements IRoleDAO {
 
 	private DBUtil dbutil;
@@ -37,6 +40,7 @@ public class DBRoleDAO implements IRoleDAO {
 
 	@Override
 	public boolean deleteById(int id) {
+		//Need to read the object from database for deletion with JPA remove method
 		Role targetRole = read(id);
 		if(targetRole == null)
 			return false;

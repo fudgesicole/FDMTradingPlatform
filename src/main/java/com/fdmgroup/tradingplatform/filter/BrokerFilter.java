@@ -18,6 +18,7 @@ import com.fdmgroup.tradingplatform.model.entity.User;
 
 /**
  * Servlet Filter implementation class BrokerFilter
+ * Filters access to all URLs accessible only by broker users.
  */
 @WebFilter({"/brokerCompanyList", "/brokerUpdateCompany", "/brokerDeleteCompany", "/brokerAddCompany", "/companyExists"})
 public class BrokerFilter implements Filter {
@@ -31,7 +32,6 @@ public class BrokerFilter implements Filter {
 	 * @see Filter#destroy()
 	 */
 	public void destroy() {
-		// TODO Auto-generated method stub
 	}
 
 	/**
@@ -52,7 +52,9 @@ public class BrokerFilter implements Filter {
 			}
 		}
 		if (!isBroker){
+			//this errMsg attribute is displayed in a modal on page load.
 			request.setAttribute("errMsg", "You do not have permission to access this page. If you believe this is an error, please contact an administrator.");
+			//forward back to the index page.
 			RequestDispatcher rd = httpReq.getRequestDispatcher("/");
 			rd.forward(request, response);
 		}
@@ -64,7 +66,6 @@ public class BrokerFilter implements Filter {
 	 * @see Filter#init(FilterConfig)
 	 */
 	public void init(FilterConfig fConfig) throws ServletException {
-		// TODO Auto-generated method stub
 	}
 
 }

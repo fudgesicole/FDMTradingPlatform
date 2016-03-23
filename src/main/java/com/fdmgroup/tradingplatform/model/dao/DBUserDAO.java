@@ -43,6 +43,8 @@ public class DBUserDAO implements IUserDAO {
 
 	@Override
 	public boolean deleteById(int id) {
+		//need the actual persistent user from the database for use 
+		//with JPA's remove method
 		User targetUser = read(id);
 		if(targetUser == null){
 			return false;

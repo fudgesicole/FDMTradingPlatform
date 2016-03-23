@@ -25,6 +25,11 @@ import com.fdmgroup.tradingplatform.model.entity.Share;
 import com.fdmgroup.tradingplatform.model.entity.Trade;
 import com.fdmgroup.tradingplatform.model.entity.User;
 
+/**
+ * Request mappings for shareholder actions. URL mappings in this class
+ * are only accessible through the filter when the loggedInUser is 
+ * has the 'shareholder' role.
+ */
 @Controller
 @SessionAttributes(value = {"loggedInUser"}, types = {User.class})
 public class ShareholderController {
@@ -44,6 +49,7 @@ public class ShareholderController {
 	@Autowired
 	private ITradeDAO tradeDAO;
 	
+	//display the page for purchasing shares.
 	@RequestMapping(value = "/buyShares", method = {RequestMethod.POST, RequestMethod.GET})
 	public String index(Model model){
 		List<Company> companies = companyDAO.readAll();
@@ -51,6 +57,8 @@ public class ShareholderController {
 			model.addAttribute("errMsg", "An error occurred while processing your request. Please try again.");
 		}
 		model.addAttribute("companies", companies);
+		//This request attribute's fields will be populated by spring forms for 
+		//new request creation or company editing.
 		model.addAttribute("buyRequest", (Request) context.getBean("request"));
 		return "buyShares";
 	}
@@ -62,6 +70,8 @@ public class ShareholderController {
 			model.addAttribute("errMsg", "An error occurred while processing your request. Please try again.");
 		}
 		model.addAttribute("shares", shares);
+		//sellRequest attribute because the user is given the option to 
+		//sell the shares they own on the portfolio page.
 		model.addAttribute("sellRequest", (Request) context.getBean("request"));
 		return "portfolio";
 	}
@@ -73,7 +83,9 @@ public class ShareholderController {
 			return "forward:/buyShares";
 		}
 		buyRequest.setCompany(companyDAO.read(companyId));
+		//Request date is the current date
 		buyRequest.setRequestDate(new Date(Calendar.getInstance().getTime().getTime()));
+		//Request shareholder is the currently logged in user from the session
 		buyRequest.setShareholder(userDAO.read(loggedInUser.getId()));
 		buyRequest.setSharesFilled(0);
 		buyRequest.setStatus("ACTIVE");
@@ -110,6 +122,7 @@ public class ShareholderController {
 
 	@RequestMapping(value = "/requests", method = {RequestMethod.POST, RequestMethod.GET})
 	public String requests(Model model, @ModelAttribute("loggedInUser") User loggedInUser){
+		//display only the active requests for the logged in user from the session
 		List<Request> requests = requestDAO.findActiveRequestsByUser(loggedInUser);
 		if(requests == null){
 			model.addAttribute("errMsg", "An error occurred while processing your request. Please try again.");

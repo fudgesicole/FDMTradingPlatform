@@ -5,7 +5,10 @@ import java.util.List;
 import com.fdmgroup.tradingplatform.model.entity.Trade;
 import com.fdmgroup.tradingplatform.model.entity.User;
 import com.fdmgroup.tradingplatform.util.DBUtil;
-
+/**
+ * An implementation of ITradeDAO for accessing trade objects
+ * stored in a database.
+ */
 public class DBTradeDAO implements ITradeDAO {
 
 	private DBUtil dbutil;
@@ -37,7 +40,10 @@ public class DBTradeDAO implements ITradeDAO {
 
 	@Override
 	public boolean deleteById(int id) {
+		//need the actual persistent object to delete
 		Trade targetTrade = read(id);
+		//If the target trade could not be found in the database,
+		//return false to signify failure.
 		if(targetTrade == null)
 			return false;
 		return dbutil.deleteHelper(read(id));
